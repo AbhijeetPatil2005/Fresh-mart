@@ -1,57 +1,86 @@
 
-import React, { useState } from 'react';
+import React from 'react';
+import { categories } from '@/data/categories';
 
 import {
   View,
   Text as RNText,
   TextInput,
   StyleSheet,
-  Pressable,
   Keyboard,
   ScrollView,
-  Alert,
 } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import CategoryCard from '@/components/CategoryCard';
 
 export default function HomeScreen() {
-  // Search state
-  
-
   return (
     <SafeAreaView style={styles.container}>
-    <View style={styles.header}>
-     
-        <View >
-             <RNText style={styles.brand}>Fresh Mart</RNText>
+
+      {/* DELIVERY HEADER */}
+      <View style={styles.header}>
+        <View>
+          <RNText style={styles.brand}>
+            Fresh Mart
+          </RNText>
         </View>
 
-        <View >
-             <RNText style={styles.deliveryTime}>Delivery in 10 mins</RNText>
+        <View>
+          <RNText style={styles.deliveryTime}>
+            Delivery in 10 mins
+          </RNText>
         </View>
 
-        <View >
-             <RNText style={styles.locationIcon}>📍 Electronic City</RNText>
-             
+        <View>
+          <RNText style={styles.locationIcon}>
+            📍 Electronic City
+          </RNText>
         </View>
- 
-    </View>
-   
-    <View style={styles.searchSection}>
-  <View style={styles.searchContainer}>
-    <RNText style={styles.searchIcon}>🔍</RNText>
-    <TextInput
-      style={styles.searchInput}
-      placeholder='Search "milk", "bread", "eggs"...'
-      placeholderTextColor="#9CA3AF"
-      // returnKeyType="search"
-      onSubmitEditing={() => Keyboard.dismiss()}
-    />
-  </View>
-</View>
+      </View>
 
+      {/* SEARCH SECTION */}
+      <View style={styles.searchSection}>
+        <View style={styles.searchContainer}>
+          <RNText style={styles.searchIcon}>
+            🔍
+          </RNText>
 
+          <TextInput
+            style={styles.searchInput}
+            placeholder='Search "milk", "bread", "eggs"...'
+            placeholderTextColor="#9CA3AF"
+            onSubmitEditing={() => Keyboard.dismiss()}
+          />
+        </View>
+      </View>
+
+      {/* SCROLLABLE CATEGORY SECTION */}
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.categorySection}>
+
+          <RNText style={styles.sectionTitle}>
+            Shop by Category
+          </RNText>
+
+          {/* CATEGORY GRID */}
+          <View style={styles.categoryGrid}>
+            {categories.map((category) => (
+              <View
+                key={category.id}
+                style={styles.categoryWrapper}
+              >
+                <CategoryCard category={category} />
+              </View>
+            ))}
+          </View>
+
+        </View>
+      </ScrollView>
 
     </SafeAreaView>
   );
@@ -193,25 +222,27 @@ const styles = StyleSheet.create({
 
   // CATEGORY SECTION
   categorySection: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingTop: 20,
   },
 
   sectionTitle: {
-    fontSize: 21,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: '700',
     color: '#18181B',
-    marginBottom: 18,
+    marginBottom: 20,
+    letterSpacing: 0.2,
   },
 
+  // 2-COLUMN CATEGORY GRID
   categoryGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    rowGap: 20,
+    rowGap: 24,
   },
 
   categoryWrapper: {
-    width: '33.3333%',
-    paddingHorizontal: 6,
+    width: '50%',
+    paddingHorizontal: 7,
   },
 });
